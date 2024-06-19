@@ -3,12 +3,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { request } from "@/utils";
 
+// 导入token相关方法
+import { setToken as _setToken, getToken } from "@/utils";
+
 const userStore = createSlice({
     name: 'user',
 
     // 数据状态
     initialState: {
-        token: localStorage.getItem('token_ket') || ''
+        // 初始化时，如果localStorage中有数据，就使用该数据，否则为空字符串
+        token: getToken() || ''
     },
 
     // 同步修改方法
@@ -17,7 +21,7 @@ const userStore = createSlice({
             state.token = action.payload
 
             // 在localStorage中存一份
-            localStorage.setItem('token_ket', action.payload)
+            _setToken(action.payload)
         }
     }
 })
