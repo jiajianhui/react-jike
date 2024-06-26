@@ -6,7 +6,7 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons'
 import './index.scss'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 const { Header, Sider } = Layout
 
@@ -36,6 +36,10 @@ const GeekLayout = () => {
     navigate(route.key)
   }
 
+  // 拿到当前的路径
+  const location = useLocation()
+  const selectedKey = location.pathname
+
   return (
     <Layout>
       <Header className="header">
@@ -54,7 +58,7 @@ const GeekLayout = () => {
           <Menu
             mode="inline"
             theme="dark"
-            defaultSelectedKeys={['1']}
+            selectedKeys={selectedKey}  //高亮原理——将传入的selectedKey与items中的key进行比较，若匹配就高亮
             items={items}
 
             // 点击时，跳转路由
