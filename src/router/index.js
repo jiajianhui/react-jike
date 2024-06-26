@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         // 二级路由
         children: [
             {
-                path: '/home',
+                index: true,
                 element: <Home />
             },
             {
