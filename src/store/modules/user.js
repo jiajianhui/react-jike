@@ -12,7 +12,8 @@ const userStore = createSlice({
     // 数据状态
     initialState: {
         // 初始化时，如果localStorage中有数据，就使用该数据，否则为空字符串
-        token: getToken() || ''
+        token: getToken() || '',
+        userInfo: {}
     },
 
     // 同步修改方法
@@ -22,13 +23,16 @@ const userStore = createSlice({
 
             // 在localStorage中存一份
             _setToken(action.payload)
+        },
+        setUserInfo(state, action) {
+            state.userInfo = action.payload
         }
     }
 })
 
 
 // 解构出actionCreater
-const {setToken} = userStore.actions
+const {setToken, setUserInfo} = userStore.actions
 
 // 获取reducer函数
 const userReducer = userStore.reducer
@@ -47,9 +51,21 @@ const fetchLogin = (formData) => {
     }
 }
 
+// 异步方法 获取用户信息
+const fetchUserInfo = () => {
+    return async (dispatch) => {
+        // 1、发送异步请求
+        const res = await request.get('/user/profile')
+
+        // 2、提交同步action进行修改
+        dispatch(setUserInfo(res.data))
+
+    }
+}
+
 
 
 
 // 导出
-export {setToken, fetchLogin}
+export {setToken, fetchLogin, fetchUserInfo}
 export default userReducer
