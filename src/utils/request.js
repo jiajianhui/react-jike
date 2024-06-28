@@ -40,7 +40,6 @@ request.interceptors.response.use((response)=> {
     // 监控401 token失效
     if (error.response.status === 401) {
       removeToken()
-      router.navigate('/login')
       window.location.reload()
     }
     return Promise.reject(error)
