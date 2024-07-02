@@ -10,3 +10,10 @@
         height: 146px;
     }
 }
+
+// 定义富文本输入框
+.publish-quill {
+    .ql-editor {
+        min-height: 300px;
+    }
+}
