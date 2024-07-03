@@ -10,6 +10,8 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useChannel } from '@/hooks/useChannel'
 
 import img404 from '@/assets/error.png'
+import { useEffect, useState } from 'react'
+import { getArticleAPI } from '@/apis/article'
 const { Option } = Select
 const { RangePicker } = DatePicker
 
@@ -83,8 +85,20 @@ const Article = () => {
       }
   ]
 
-  // 频道列表数据-——调用函数，然后解构出需要的数据
+    // 频道列表数据-——调用函数，然后解构出需要的数据
     const {channelList} = useChannel()
+
+    // 获取文章列表、文章总数
+    const [articleList, setArticleList] = useState([])
+    const [articleCount, setArticleCount] = useState(0)
+    useEffect(() => {
+        async function getArticleList() {
+            const res = await getArticleAPI()
+            setArticleList(res.data.results)
+            setArticleCount(res.data.total_count)
+        }
+        getArticleList()
+    }, [])
   return (
     <div>
       <Card
@@ -134,8 +148,9 @@ const Article = () => {
       </Card>
 
         {/* 表格区域 */}
-      <Card title={`根据筛选条件共查询到 count 条结果：`}>
-        <Table rowKey="id" columns={columns} dataSource={data} />
+      <Card title={`根据筛选条件共查询到 ${articleCount} 条结果：`}>
+        {/* columns用来渲染列；dataSource渲染列表数据 */}
+        <Table rowKey="id" columns={columns} dataSource={articleList} />
       </Card>
       
     </div>
