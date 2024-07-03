@@ -17,31 +17,17 @@ import './index.scss'
 // 导入富文本输入框相关文件
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useEffect, useState } from 'react'
-import { createArticleAPI, getChannelAPI } from '@/apis/article'
+import { useState } from 'react'
+import { createArticleAPI } from '@/apis/article'
+import { useChannel } from '@/hooks/useChannel'
 
 
 const { Option } = Select
 
 const Publish = () => {
 
-    // 准备频道列表数据
-    const [channelList, setChannelList] = useState([])
-
-    // 获取频道列表数据
-    useEffect(() => {
-        const getChannelList = async () => {
-            // 1、调用接口函数
-            const res = await getChannelAPI()
-
-            // 2、存入useState
-            setChannelList(res.data.channels)
-        }
-
-        // 3、调用函数
-        getChannelList()
-
-    }, [])
+    // 频道列表数据-——调用函数，然后解构出需要的数据
+    const {channelList} = useChannel()
 
     // 提交函数
     const onFinish = (formData) => {
