@@ -62,6 +62,15 @@ const Publish = () => {
         createArticleAPI(reqData)
     }
 
+    // 将上传的图片存起来
+    const [imageList, setImageList] = useState([])
+    // 上传回调
+    const onChange = (value) => {
+        console.log(1, value);
+        setImageList(value.fileList)
+        console.log(imageList);
+    }
+
   return (
     <div className="publish">
       <Card
@@ -115,11 +124,19 @@ const Publish = () => {
                 <Radio value={0}>无图</Radio>
               </Radio.Group>
             </Form.Item>
+
+            {/* 
+                listType——决定选择文件框的外观样式
+                showUploadList——控制显示上传列表
+            */}
             <Upload
-              name="image"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList
+
+              action="http://geek.itheima.net/v1_0/upload"  //上传地址
+              name="image"  //上传的接口字段；有接口文档提供 
+              onChange={onChange}  //上传过程中会不断的触发这个回调函数
             >
               <div style={{ marginTop: 8 }}>
                 <PlusOutlined />
