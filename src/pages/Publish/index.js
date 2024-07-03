@@ -71,6 +71,14 @@ const Publish = () => {
         console.log(imageList);
     }
 
+    // 将单选框对应的值存起来
+    const [radioValue, setRadioValue] = useState(0)
+    // 点击单选框时，自动执行的回调
+    const onTypeChange = (e) => {
+        console.log(e);
+        setRadioValue(e.target.value)
+    }
+
   return (
     <div className="publish">
       <Card
@@ -89,7 +97,7 @@ const Publish = () => {
         <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ type: 1 }}
+          initialValues={{ type: 0 }}  //控制表单里面的初始值；这里的type对应的是 <Form.Item name="type">
           onFinish={onFinish}
         >
 
@@ -118,7 +126,9 @@ const Publish = () => {
           {/* 封面 */}
           <Form.Item label="封面">
             <Form.Item name="type">
-              <Radio.Group>
+              <Radio.Group onChange={onTypeChange}>
+
+                {/* 下面的value的值不是随意定义的，是根据后端接口来的 */}
                 <Radio value={1}>单图</Radio>
                 <Radio value={3}>三图</Radio>
                 <Radio value={0}>无图</Radio>
@@ -129,7 +139,8 @@ const Publish = () => {
                 listType——决定选择文件框的外观样式
                 showUploadList——控制显示上传列表
             */}
-            <Upload
+            {radioValue > 0 && 
+                <Upload
               listType="picture-card"
               className="avatar-uploader"
               showUploadList
@@ -142,6 +153,8 @@ const Publish = () => {
                 <PlusOutlined />
               </div>
             </Upload>
+            }
+            
           </Form.Item>
 
           <Form.Item
