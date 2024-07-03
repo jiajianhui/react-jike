@@ -148,6 +148,7 @@ const Publish = () => {
               action="http://geek.itheima.net/v1_0/upload"  //上传地址
               name="image"  //上传的接口字段；有接口文档提供 
               onChange={onChange}  //上传过程中会不断的触发这个回调函数
+              maxCount={radioValue}  //控制上传数量
             >
               <div style={{ marginTop: 8 }}>
                 <PlusOutlined />
