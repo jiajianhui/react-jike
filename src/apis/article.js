@@ -8,3 +8,13 @@ export function getChannelAPI() {
         method: 'GET'
     })
 }
+
+// 2、创建文章
+export function createArticleAPI(data) {
+    // axios 通用写法
+    return request({
+        url: '/mp/articles?draft=false',
+        method: 'POST',
+        data
+    })
+}
