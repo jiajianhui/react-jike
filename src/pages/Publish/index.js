@@ -7,7 +7,8 @@ import {
   Input,
   Upload,
   Space,
-  Select
+  Select,
+  message
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
@@ -47,13 +48,18 @@ const Publish = () => {
         console.log(formData);
         const {title, content, channel_id} = formData
 
+        // 校验——如果单选框类型与图片数量不一致就弹窗提示
+        if (radioValue != imageList.length) {
+            return message.warning('单选框类型与图片数量不一致!')
+        }
+
         // 1、按接口文档格式处理收集到的表单数据
         const reqData = {
             title,
             content,
             cover: {
-                type: 0,
-                imges: []
+                type: radioValue,  //单选框类型
+                imges: imageList.map(item => item.response.data.url)  //图片列表
             },
             channel_id
         }
