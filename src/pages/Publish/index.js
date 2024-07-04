@@ -56,18 +56,18 @@ const Publish = () => {
 
     // 将上传的图片存起来
     const [imageList, setImageList] = useState([])
-    // 上传回调
+    // 上传过程中不断执行回调
     const onChange = (value) => {
         console.log(1, value);
         setImageList(value.fileList)
-        console.log(imageList);
+        // console.log(imageList);
     }
 
     // 将单选框对应的值存起来
     const [radioValue, setRadioValue] = useState(0)
     // 点击单选框时，自动执行的回调
     const onTypeChange = (e) => {
-        console.log(e);
+        // console.log(e);
         setRadioValue(e.target.value)
     }
 
@@ -93,6 +93,7 @@ const Publish = () => {
           onFinish={onFinish}
         >
 
+          {/* 面包屑 */}
           <Form.Item
             label="标题"
             name="title"
@@ -133,19 +134,19 @@ const Publish = () => {
             */}
             {radioValue > 0 && 
                 <Upload
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList
 
-              action="http://geek.itheima.net/v1_0/upload"  //上传地址
-              name="image"  //上传的接口字段；有接口文档提供 
-              onChange={onChange}  //上传过程中会不断的触发这个回调函数
-              maxCount={radioValue}  //控制上传数量
-            >
-              <div style={{ marginTop: 8 }}>
-                <PlusOutlined />
-              </div>
-            </Upload>
+                  action="http://geek.itheima.net/v1_0/upload"  //上传地址
+                  name="image"  //上传的接口字段；有接口文档提供 
+                  onChange={onChange}  //上传过程中会不断的触发这个回调函数
+                  maxCount={radioValue}  //控制上传数量
+                >
+                  <div style={{ marginTop: 8 }}>
+                    <PlusOutlined />
+                  </div>
+              </Upload>
             }
             
           </Form.Item>

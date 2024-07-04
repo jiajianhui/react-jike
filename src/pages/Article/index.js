@@ -17,13 +17,20 @@ const { RangePicker } = DatePicker
 
 const Article = () => {
 
+    // 状态枚举
+    const status = {
+        1: <Tag color="warning">待审核</Tag>,
+        2: <Tag color="green">审核通过</Tag>
+    }
+
+    // 列数据
       const columns = [
     {
       title: '封面',
       dataIndex: 'cover',
       width:120,
       render: cover => {
-        return <img src={cover || img404} width={80} height={60} alt="" />
+        return <img src={cover.images[0] || img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -34,7 +41,7 @@ const Article = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      render: data => <Tag color="green">审核通过</Tag>
+      render: data => status[data]  //通过中括号取值，将data当作一个key传入
     },
     {
       title: '发布时间',
