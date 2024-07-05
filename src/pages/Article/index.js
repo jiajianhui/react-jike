@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select } from 'antd'
+import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
 // import 'moment/locale/zh-cn'
 import locale from 'antd/es/date-picker/locale/zh_CN'
 // import './index.scss'
@@ -11,7 +11,7 @@ import { useChannel } from '@/hooks/useChannel'
 
 import img404 from '@/assets/error.png'
 import { useEffect, useState } from 'react'
-import { getArticleAPI } from '@/apis/article'
+import { deleteArticleAPI, getArticleAPI } from '@/apis/article'
 const { Option } = Select
 const { RangePicker } = DatePicker
 
@@ -65,12 +65,23 @@ const Article = () => {
         return (
           <Space size="middle">
             <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
+
+            <Popconfirm
+              title="删除文章"
+              description="确认要删除当前文章吗？"
+              onConfirm={() => onDelete(data)}
+              // onCancel={}
+              okText="是"
+              cancelText="否"
+            >
+              <Button
               type="primary"
               danger
               shape="circle"
               icon={<DeleteOutlined />}
-            />
+              />
+            </Popconfirm>
+            
           </Space>
         )
       }
@@ -124,10 +135,21 @@ const Article = () => {
     const onPageChange = (value) => {
       // console.log(value);
 
-      // 修改参数依赖项，对应的useEffect函数就会再次执行，重新获取列表渲染
+      // 修改参数依赖项，对应的useEffect函数就会再次执行，重新获取列表进行渲染
       setReqData({
         ...reqData,
         page: value
+      })
+    }
+
+    // 删除函数
+    const onDelete = async (data) => {
+      // console.log(data);
+      await deleteArticleAPI(data.id)  //必须要等删除操作执行完之后，再执行更新列表，因为deleteArticleAPI是异步接口，所以使用async await
+
+      // 只需在这放一下数据，就会重新获取列表进行渲染
+      setReqData({
+        ...reqData
       })
     }
 

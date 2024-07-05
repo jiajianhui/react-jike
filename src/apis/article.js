@@ -28,3 +28,12 @@ export function getArticleAPI(params) {
         params
     })
 }
+
+// 4、删除文章
+export function deleteArticleAPI(id) {
+    // axios 通用写法
+    return request({
+        url: `/mp/articles/${id}`,  //es6的模版字符串语法
+        method: 'DELETE'
+    })
+}
