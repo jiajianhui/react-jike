@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // 导入token相关方法
-import { setToken as _setToken, getToken, removeToken, request } from "@/utils";
+import { setToken as _setToken, getToken, removeToken } from "@/utils";
 import { getProfileAPI, loginAPI } from "@/apis/user";
 
 const userStore = createSlice({

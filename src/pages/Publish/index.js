@@ -35,7 +35,7 @@ const Publish = () => {
         const {title, content, channel_id} = formData
 
         // 校验——如果单选框类型与图片数量不一致就弹窗提示
-        if (radioValue != imageList.length) {
+        if (radioValue !== imageList.length) {
             return message.warning('单选框类型与图片数量不一致!')
         }
 

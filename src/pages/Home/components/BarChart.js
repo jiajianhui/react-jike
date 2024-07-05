@@ -1,6 +1,7 @@
 // 柱状图组件
 import * as echarts from 'echarts';
 import { useEffect, useRef } from 'react';
+import React from 'react';
 
 // 1、把功能代码都放到这个组件中
 // 2、把可变的部分抽象成prop参数
@@ -61,7 +62,7 @@ const BarChart = ({xData, sData, title}) => {
 
         // 4、使用图表参数完成图表的渲染
         myChart.setOption(option);
-    }, [])
+    }, [xData, sData, title])
 
     return <div ref={chartRef} style={{width: '500px', height: '400px'}}></div>
 }

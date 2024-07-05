@@ -120,6 +120,17 @@ const Article = () => {
         getArticleList()
     }, [reqData])
 
+    // 分页函数——使用页数作为请求参数重新获取文章列表渲染
+    const onPageChange = (value) => {
+      // console.log(value);
+
+      // 修改参数依赖项，对应的useEffect函数就会再次执行，重新获取列表渲染
+      setReqData({
+        ...reqData,
+        page: value
+      })
+    }
+
 
   return (
     <div>
@@ -177,7 +188,11 @@ const Article = () => {
         {/* 表格区域 */}
       <Card title={`根据筛选条件共查询到 ${articleCount} 条结果：`}>
         {/* columns用来渲染列；dataSource渲染列表数据 */}
-        <Table rowKey="id" columns={columns} dataSource={articleList} />
+        <Table rowKey="id" columns={columns} dataSource={articleList} pagination={{
+          total: articleCount,  //文章总数
+          pageSize: reqData.per_page,  //每页条数
+          onChange: onPageChange  //点击切换页码时，调用该函数
+        }} />
       </Card>
       
     </div>
