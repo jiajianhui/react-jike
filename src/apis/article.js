@@ -37,3 +37,13 @@ export function deleteArticleAPI(id) {
         method: 'DELETE'
     })
 }
+
+
+// 5、获取文章详情
+export function getArticleById(id) {
+    // axios 通用写法
+    return request({
+        url: `/mp/articles/${id}`,
+        method: 'GET'
+    })
+}

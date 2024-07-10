@@ -11,14 +11,14 @@ import {
   message
 } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import './index.scss'
 
 // 导入富文本输入框相关文件
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useState } from 'react'
-import { createArticleAPI } from '@/apis/article'
+import { useEffect, useState } from 'react'
+import { createArticleAPI, getArticleById } from '@/apis/article'
 import { useChannel } from '@/hooks/useChannel'
 
 
@@ -71,6 +71,26 @@ const Publish = () => {
         setRadioValue(e.target.value)
     }
 
+    // 数据回填
+    // --1、获取路由参数上的id
+    const [searchParama] = useSearchParams()  //searchParama是一个对象，里面有get方法，可以得到id
+    const articleId = searchParama.get('id')
+    // console.log(articleId);
+    // --2、获取form组件的实例
+    const [form] = Form.useForm()
+    useEffect(() => {
+      // 1、通过id获取数据
+      async function getArticleDetail() {
+        const res = await getArticleById(articleId)
+
+        // 2、调用form实例方法，回填数据
+        form.setFieldsValue(res.data)
+      }
+
+      getArticleDetail()
+
+    }, [articleId, form])
+
   return (
     <div className="publish">
       <Card
@@ -91,6 +111,7 @@ const Publish = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ type: 0 }}  //控制表单里面的初始值；这里的type对应的是 <Form.Item name="type">
           onFinish={onFinish}
+          form={form}
         >
 
           {/* 面包屑 */}
