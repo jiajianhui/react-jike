@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
 // import 'moment/locale/zh-cn'
 import locale from 'antd/es/date-picker/locale/zh_CN'
@@ -23,6 +23,9 @@ const Article = () => {
         2: <Tag color="green">审核通过</Tag>
     }
     
+    // 跳转函数
+    const navigate = useNavigate()
+
     // 列数据
       const columns = [
     {
@@ -64,7 +67,9 @@ const Article = () => {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
+
+            {/* 携带id跳转到编辑页 */}
+            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={() => navigate(`/publish?id=${data.id}`)} />
 
             <Popconfirm
               title="删除文章"
