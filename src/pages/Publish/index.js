@@ -100,7 +100,11 @@ const Publish = () => {
         // console.log(imageList);
       }
 
-      getArticleDetail()
+      // 根据articleId的存在与否，来调用该函数，否则当切换至该页面时，就会报错（此时无articleId）
+      if (articleId) {
+        getArticleDetail()
+      }
+      
 
     }, [articleId, form])
 
@@ -114,7 +118,8 @@ const Publish = () => {
               <Link to="/home">首页</Link>
             </Breadcrumb.Item>
 
-            <Breadcrumb.Item>发布文章</Breadcrumb.Item>
+            {/* 根据articleId的存在与否来修改文案 */}
+            <Breadcrumb.Item> {articleId ? '编辑' : '发布'}文章</Breadcrumb.Item>
 
           </Breadcrumb>
         }
