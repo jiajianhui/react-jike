@@ -78,13 +78,26 @@ const Publish = () => {
     // console.log(articleId);
     // --2、获取form组件的实例
     const [form] = Form.useForm()
+
     useEffect(() => {
       // 1、通过id获取数据
       async function getArticleDetail() {
         const res = await getArticleById(articleId)
 
         // 2、调用form实例方法，回填数据
-        form.setFieldsValue(res.data)
+        form.setFieldsValue({
+          ...res.data,
+          type: res.data.cover.type  //因为setFieldsValue方法要求的是 {type: 2}，而我们的type值在cover对象中 
+        })
+
+        console.log(res.data);
+        // 3、为啥无法直接回填封面——数据结构问题，因为setFieldsValue方法要的是 {type: 2}，而我们的type值在cover对象中 
+
+        setRadioValue(res.data.cover.type)  //设置封面类型
+        setImageList(res.data.cover.images.map(url => {
+          return {url}
+        }))
+        // console.log(imageList);
       }
 
       getArticleDetail()
@@ -163,6 +176,7 @@ const Publish = () => {
                   name="image"  //上传的接口字段；有接口文档提供 
                   onChange={onChange}  //上传过程中会不断的触发这个回调函数
                   maxCount={radioValue}  //控制上传数量
+                  fileList={imageList}  //当前显示的图片列表
                 >
                   <div style={{ marginTop: 8 }}>
                     <PlusOutlined />
