@@ -18,7 +18,7 @@ import './index.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { useEffect, useState } from 'react'
-import { createArticleAPI, getArticleById } from '@/apis/article'
+import { createArticleAPI, getArticleById, updateArticleAPI } from '@/apis/article'
 import { useChannel } from '@/hooks/useChannel'
 
 
@@ -45,13 +45,27 @@ const Publish = () => {
             content,
             cover: {
                 type: radioValue,  //单选框类型
-                imges: imageList.map(item => item.response.data.url)  //图片列表
+
+                // 新增文章时的图片格式（上传）与更新文章时的图片格式（回填）不一样，所以要做格式的转换
+                imges: imageList.map(item => {
+                  if (item.response) {
+                    return item.response.data.url
+                  } else {
+                    return item.url
+                  }
+                })  //图片列表
             },
             channel_id
         }
 
-        // 2、调用接口提交
-        createArticleAPI(reqData)
+        // 2、调用接口提交或者更新；根据articleId的情况调用不同的接口
+        if (articleId) {
+          // 更新接口
+          updateArticleAPI({...reqData, id: articleId})  //之前准备的参数中没有id，所以将reqData解构出来，然后再补充缺失的id参数
+        } else {
+          createArticleAPI(reqData)
+        }
+        
     }
 
     // 将上传的图片存起来

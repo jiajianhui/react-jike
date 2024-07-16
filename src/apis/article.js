@@ -47,3 +47,13 @@ export function getArticleById(id) {
         method: 'GET'
     })
 }
+
+// 6、更新文章
+export function updateArticleAPI(data) {
+    // axios 通用写法
+    return request({
+        url: `mp/articles/${data.id}?draft=false`,
+        method: 'PUT',
+        data
+    })
+}
